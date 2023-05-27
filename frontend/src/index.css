@@ -1,0 +1,22 @@
+a, a:visited, a:hover, a:active{
+    text-decoration: none;
+    color: #000000;
+    background-color: #cdcdcd;
+    padding: 5px 10px;
+}
+.nav{
+    background-color: #ffffff;
+    display: flex;
+    gap: 10px;
+}
+button{
+    cursor: pointer;
+    color: #000000;
+    background-color: #cdcdcd;
+    padding: 5px 10px;
+    border: none;
+}
+.genre-list{
+    display: flex;
+    gap: 10px;
+}
