@@ -19,9 +19,7 @@ const { useServer } = require("graphql-ws/lib/use/ws");
 
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(
-    "mongodb+srv://usman:123@cluster0.hkd7kos.mongodb.net/library?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("connected to mongodb");
   })

@@ -29,12 +29,6 @@ const resolvers = {
     allUsers: async () => User.find({}),
     me: (root, args, context) => context.currentUser,
   },
-  Author: {
-    async bookCount(root) {
-      console.log("book.count");
-      return Book.countDocuments({ author: root._id });
-    },
-  },
   Book: {
     async author(root) {
       const book = await Book.findOne({ title: root.title }).populate("author");
@@ -42,6 +36,7 @@ const resolvers = {
         name: book.author.name,
         born: book.author.born,
         id: book.author._id,
+        bookCount: book.author.bookCount,
       };
     },
   },
@@ -62,9 +57,13 @@ const resolvers = {
       if (!author) {
         const newAuthor = new Author({
           name: args.author,
+          bookCount: 1,
         });
         newAuthorId = newAuthor._id;
         await newAuthor.save();
+      } else {
+        author.bookCount++;
+        await author.save();
       }
       console.log(newAuthorId);
       book.author = newAuthorId;
