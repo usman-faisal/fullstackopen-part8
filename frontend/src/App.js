@@ -6,14 +6,34 @@ import { Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useSubscription } from "@apollo/client";
 import RecommendedBooks from "./components/RecommendedBooks";
+import { ALL_BOOKS, BOOK_ADDED } from "./queries";
 
 const App = () => {
   const [token, setToken] = useState(
     () => localStorage.getItem("token") || null
   );
   const client = useApolloClient();
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const { bookAdded } = data.data;
+      window.alert(`new book added by ${bookAdded.author.name}`);
+      client.cache.updateQuery(
+        {
+          query: ALL_BOOKS,
+          variables: { genre: localStorage.getItem("genre") ?? null },
+        },
+        ({ allBooks }) => {
+          console.log({ allBooks });
+          return {
+            allBooks: allBooks.concat(bookAdded),
+          };
+        }
+      );
+    },
+  });
   async function handleLogoutClick() {
     setToken(null);
     localStorage.removeItem("token");

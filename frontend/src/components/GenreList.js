@@ -9,16 +9,19 @@ const GenreList = ({ setGenre }) => {
   const allGenres = new Set(
     result.data.allBooks.map((book) => book.genres).flatMap((item) => item)
   );
-
+  const handleGenreClick = (genre) => {
+    localStorage.setItem("genre", genre);
+    setGenre(genre);
+  };
   return (
     <div className="genre-list">
-      <button onClick={(e) => setGenre(e.target.name)} name="">
+      <button onClick={(e) => handleGenreClick(e.target.name)} name="">
         All genres
       </button>
       {[...allGenres].flatMap((genre) => {
         return (
           <button
-            onClick={(e) => setGenre(e.target.name)}
+            onClick={(e) => handleGenreClick(e.target.name)}
             name={genre}
             key={genre}
           >

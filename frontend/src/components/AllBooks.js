@@ -7,7 +7,7 @@ import BookList from "./BookList";
 const AllBooks = () => {
   const [genre, setGenre] = useState("");
   const result = useQuery(ALL_BOOKS, {
-    variables: { genre: genre && genre },
+    variables: { genre: localStorage.getItem("genre") ?? null },
   });
   if (result.loading) {
     return <p>Loading...</p>;

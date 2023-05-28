@@ -3,9 +3,7 @@ import { ALL_AUTHORS } from "../queries";
 import UpdateBirthForm from "./UpdateBirthForm";
 
 const Authors = () => {
-  const result = useQuery(ALL_AUTHORS, {
-    variables: { genre: "hi" },
-  });
+  const result = useQuery(ALL_AUTHORS);
   if (result.loading) {
     return <p>Loading..</p>;
   }
